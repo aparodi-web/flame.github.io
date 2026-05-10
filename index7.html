@@ -1,0 +1,1449 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+<title>FLAME — The Ticketing Partner That Grows With Your Venue</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Bebas+Neue&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Caveat:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  /* ---------- BRAND TOKENS ---------- */
+  :root{
+    --bg:           #0E1E2E;
+    --bg-card:      #16293D;
+    --bg-deep:      #0A1623;
+    --bg-darker:    #060E16;
+    --flame:        #B41C1C;
+    --flame-2:      #C82525;
+    --cream:        #F4EDDF;
+    --green:        #4FC48A;
+    --amber:        #E8B84B;
+
+    --line:         rgba(244,237,223,0.10);
+    --line-soft:    rgba(244,237,223,0.06);
+    --ink:          var(--cream);
+    --ink-mute:     rgba(244,237,223,0.65);
+    --ink-dim:      rgba(244,237,223,0.40);
+
+    --radius:       12px;
+    --radius-lg:    20px;
+    --container:    1180px;
+
+    --display: "Anton", "Arial Narrow", sans-serif;
+    --display-2: "Bebas Neue", "Anton", sans-serif;
+    --sans: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+    --mono: "JetBrains Mono", ui-monospace, monospace;
+    --hand: "Caveat", cursive;
+  }
+
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:var(--sans);
+    font-size:15.5px;
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+    overflow-x:hidden;
+  }
+  body::before{
+    content:""; position:fixed; inset:0; pointer-events:none; z-index:0;
+    background:
+      radial-gradient(1100px 600px at 85% -5%, rgba(180,28,28,0.32), transparent 60%),
+      radial-gradient(800px 500px at 5% 35%, rgba(180,28,28,0.14), transparent 60%),
+      radial-gradient(900px 500px at 100% 95%, rgba(200,37,37,0.20), transparent 60%),
+      radial-gradient(600px 400px at 50% 50%, rgba(232,184,75,0.05), transparent 70%);
+  }
+  body::after{
+    content:""; position:fixed; inset:0; pointer-events:none; z-index:0;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.95  0 0 0 0 0.93  0 0 0 0 0.87  0 0 0 0.55 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+    opacity:0.045;
+    mix-blend-mode:overlay;
+  }
+  main, nav, footer{position:relative; z-index:1}
+
+  a{color:inherit;text-decoration:none}
+  button{font-family:inherit}
+  ::selection{background:var(--flame); color:var(--cream)}
+
+  /* TYPE */
+  .eyebrow{
+    font-family:var(--mono); font-size:11px; letter-spacing:0.22em;
+    text-transform:uppercase; color:var(--flame-2);
+    display:inline-flex; align-items:center; gap:10px; font-weight:600;
+  }
+  .eyebrow::before{ content:""; width:24px; height:1px; background:var(--flame-2); box-shadow:0 0 8px rgba(200,37,37,0.5); }
+  h1, h2, h3 { font-family:var(--display); font-weight:400; letter-spacing:0.005em; line-height:0.95; margin:0; text-transform:uppercase; }
+  h1{ font-size: clamp(46px, 8vw, 96px); }
+  h2{ font-size: clamp(34px, 5.4vw, 64px); }
+  h3{ font-size: clamp(22px, 2.8vw, 30px); }
+  h4{ font-family:var(--sans); font-size:16px; font-weight:600; letter-spacing:0; margin:0; line-height:1.3 }
+  h1 .hl, h2 .hl{ color:var(--flame); text-shadow:0 0 30px rgba(180,28,28,0.45); }
+  h1 .script, h2 .script{
+    font-family:var(--hand); font-weight:600; text-transform:none;
+    color:var(--amber); font-size:0.62em; letter-spacing:0; line-height:1;
+    display:inline-block; transform:translateY(-0.18em) rotate(-2deg);
+  }
+  p{margin:0; color:var(--ink-mute)}
+  .lede{font-size:17px; line-height:1.6; color:var(--ink-mute); max-width:62ch}
+
+  /* LAYOUT */
+  .wrap{max-width:var(--container); margin:0 auto; padding:0 28px}
+  section{ padding: 90px 0; position:relative }
+  section + section{
+    border-top:1px solid var(--line-soft);
+    position:relative;
+  }
+  section + section::before{
+    content:""; position:absolute; left:50%; top:-1px;
+    transform:translateX(-50%);
+    width:80px; height:2px;
+    background:var(--flame);
+    box-shadow:0 0 12px rgba(180,28,28,0.6);
+  }
+  .section-head{display:flex; flex-direction:column; gap:18px; margin-bottom:48px; max-width:780px}
+
+  /* NAV */
+  nav.top{
+    position:sticky; top:0; z-index:50;
+    backdrop-filter: blur(20px) saturate(140%);
+    -webkit-backdrop-filter: blur(20px) saturate(140%);
+    background:rgba(10,22,35,0.78);
+    border-bottom:1px solid var(--line-soft);
+  }
+  .nav-inner{
+    max-width:var(--container); margin:0 auto; padding:14px 28px;
+    display:flex; align-items:center; gap:24px;
+  }
+  .logo{
+    font-family:var(--display); font-size:26px; font-weight:400; letter-spacing:0.04em;
+    display:flex; align-items:center; gap:10px;
+    color:var(--cream);
+  }
+  .logo-mark{
+    display:inline-block; width:14px; height:14px;
+    background:var(--flame);
+    clip-path: polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%);
+    box-shadow:0 0 16px rgba(180,28,28,0.65);
+  }
+  .nav-links{ display:flex; gap:26px; margin-left:18px; flex:1; }
+  .nav-links a{ font-size:13px; color:var(--ink-mute); transition:color .2s; font-weight:500; }
+  .nav-links a:hover{color:var(--cream)}
+  .lang-switch{
+    display:flex; padding:3px; background:var(--bg-deep);
+    border:1px solid var(--line); border-radius:999px;
+    font-family:var(--mono); font-size:11px;
+  }
+  .lang-switch button{
+    border:0; background:transparent; color:var(--ink-dim); padding:5px 12px;
+    border-radius:999px; cursor:pointer; letter-spacing:0.1em; font-weight:500;
+  }
+  .lang-switch button.on{ background:var(--cream); color:var(--bg-deep); }
+  .nav-cta{
+    padding:10px 18px; border-radius:999px;
+    background:var(--flame); color:var(--cream); border:0; cursor:pointer;
+    font-size:13px; font-weight:600; letter-spacing:0.02em;
+    transition:transform .2s, box-shadow .2s, background .2s;
+  }
+  .nav-cta:hover{ transform:translateY(-1px); background:var(--flame-2); box-shadow:0 10px 24px -8px rgba(180,28,28,0.6) }
+  @media(max-width:840px){ .nav-links{display:none} }
+
+  /* BUTTONS */
+  .btn{
+    display:inline-flex; align-items:center; gap:10px;
+    padding:14px 22px; border-radius:999px; cursor:pointer;
+    font-size:14px; font-weight:600; border:0;
+    transition:transform .2s, box-shadow .2s, background .2s, color .2s;
+  }
+  .btn-primary{ background:var(--flame); color:var(--cream); }
+  .btn-primary:hover{ transform:translateY(-1px); background:var(--flame-2); box-shadow:0 14px 30px -10px rgba(180,28,28,0.55) }
+  .btn-ghost{ background:transparent; color:var(--cream); border:1px solid var(--line); }
+  .btn-ghost:hover{ background:var(--bg-deep); border-color:var(--ink-mute) }
+  .btn .arrow{font-family:var(--mono); transition:transform .2s}
+  .btn:hover .arrow{transform:translateX(3px)}
+
+  /* HERO */
+  .hero{ padding: 70px 0 90px; position:relative; overflow:hidden; }
+  .hero-grid{
+    display:grid; grid-template-columns: 1.25fr 1fr; gap:60px; align-items:end;
+  }
+  @media(max-width:900px){ .hero-grid{grid-template-columns:1fr; gap:40px} }
+  .hero h1{margin-top:24px}
+  .hero h1 .line{display:block}
+  .hero .lede{margin-top:22px}
+  .hero-ctas{display:flex; gap:12px; margin-top:34px; flex-wrap:wrap}
+
+  .hero-stats{ display:grid; gap:14px; }
+  .stat{
+    background:linear-gradient(180deg, var(--bg-card), var(--bg-deep));
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:22px 24px;
+    position:relative; overflow:hidden;
+  }
+  .stat::before{
+    content:""; position:absolute; inset:0 auto 0 0; width:3px;
+    background:var(--flame);
+  }
+  .stat-num{ font-family:var(--display); font-size:42px; line-height:1; color:var(--cream); letter-spacing:0.02em; }
+  .stat-num.flame{ color:var(--flame); }
+  .stat-num.amber{ color:var(--amber); }
+  .stat-label{margin-top:8px; font-size:13px; color:var(--ink-mute)}
+
+  .marquee{
+    margin-top:60px;
+    border-top:1px solid var(--line-soft);
+    border-bottom:1px solid var(--line-soft);
+    padding:16px 0; overflow:hidden;
+    -webkit-mask-image:linear-gradient(90deg, transparent, black 10%, black 90%, transparent);
+            mask-image:linear-gradient(90deg, transparent, black 10%, black 90%, transparent);
+  }
+  .marquee-track{
+    display:flex; gap:54px; animation:slide 38s linear infinite;
+    white-space:nowrap;
+    font-family:var(--display-2); font-size:18px; letter-spacing:0.18em; text-transform:uppercase;
+    color:var(--ink-mute);
+  }
+  .marquee-track span{display:inline-flex; align-items:center; gap:14px}
+  .marquee-track span::before{ content:"✦"; color:var(--flame); font-size:11px; }
+  @keyframes slide{ from{transform:translateX(0)} to{transform:translateX(-50%)} }
+
+  /* WHY FLAME */
+  .why-grid{
+    display:grid; grid-template-columns: 1fr 1fr; gap:18px;
+  }
+  @media(max-width:780px){ .why-grid{grid-template-columns:1fr} }
+  .why-card{
+    background:var(--bg-card);
+    border:1px solid var(--line);
+    border-radius:var(--radius-lg);
+    padding:30px;
+    position:relative;
+    transition:border-color .3s, transform .3s;
+  }
+  .why-card:hover{ border-color:rgba(244,237,223,0.18) }
+  .why-head{
+    display:flex; align-items:center; gap:14px; margin-bottom:20px;
+    padding-bottom:18px; border-bottom:1px solid var(--line-soft);
+  }
+  .why-icon{
+    width:38px; height:38px; border-radius:10px;
+    display:grid; place-items:center;
+    background:rgba(180,28,28,0.14);
+    border:1px solid rgba(180,28,28,0.32);
+    color:var(--flame); font-size:16px;
+  }
+  .why-icon.amber{
+    background:rgba(232,184,75,0.12);
+    border-color:rgba(232,184,75,0.30);
+    color:var(--amber);
+  }
+  .feat-list{list-style:none; padding:0; margin:0; display:grid; gap:11px}
+  .feat-list li{
+    display:flex; gap:12px; align-items:flex-start;
+    font-size:14.5px; color:var(--cream);
+  }
+  .feat-list li::before{
+    content:""; flex-shrink:0; margin-top:9px;
+    width:5px; height:5px; border-radius:50%;
+    background:var(--flame);
+  }
+  .feat-list.amber li::before{ background:var(--amber); }
+
+  .pain-strip{
+    margin-top:28px;
+    display:grid; grid-template-columns:repeat(4,1fr);
+    border:1px solid var(--line-soft); border-radius:var(--radius);
+    background:var(--bg-deep); overflow:hidden;
+  }
+  @media(max-width:780px){ .pain-strip{grid-template-columns:repeat(2,1fr)} }
+  .pain-cell{
+    padding:18px 20px; border-right:1px solid var(--line-soft);
+  }
+  .pain-cell:last-child{border-right:0}
+  @media(max-width:780px){
+    .pain-cell:nth-child(2){border-right:0}
+    .pain-cell:nth-child(-n+2){border-bottom:1px solid var(--line-soft)}
+  }
+  .pain-x{ color:var(--flame); font-family:var(--mono); font-size:14px; font-weight:700; }
+  .pain-cell h4{ margin-top:6px; font-size:14px }
+  .pain-cell p{ font-size:12.5px; margin-top:4px }
+
+  /* FLOW */
+  .flow{
+    margin-top:30px;
+    background:var(--bg-card);
+    border:1px solid var(--line);
+    border-radius:var(--radius-lg);
+    padding:36px 28px;
+    overflow:hidden;
+  }
+  .flow-steps{
+    display:flex; gap:0;
+    overflow-x:auto; -webkit-overflow-scrolling:touch;
+  }
+  .flow-step{
+    flex:1; min-width:155px; padding:0 16px; position:relative;
+  }
+  .flow-step + .flow-step::before{
+    content:"→"; position:absolute; left:-8px; top:14px;
+    color:var(--flame); font-family:var(--mono); font-size:14px;
+  }
+  .flow-num{
+    font-family:var(--mono); font-size:11px; color:var(--ink-dim); letter-spacing:0.15em;
+    margin-bottom:14px;
+  }
+  .flow-title{
+    font-family:var(--display-2); font-size:20px; line-height:1.05;
+    color:var(--cream); margin-bottom:6px; letter-spacing:0.04em;
+  }
+  .flow-desc{font-size:13px; color:var(--ink-mute)}
+
+  /* CALCULATOR */
+  .calc{
+    background:linear-gradient(180deg, var(--bg-card), var(--bg-deep));
+    border:1px solid var(--line);
+    border-radius:var(--radius-lg);
+    padding:38px;
+    margin-top:24px;
+  }
+  @media(max-width:680px){ .calc{padding:26px 20px} }
+  .calc-grid{
+    display:grid; grid-template-columns: 1fr 1.05fr; gap:38px;
+  }
+  @media(max-width:900px){ .calc-grid{grid-template-columns:1fr; gap:28px} }
+  .calc-control label{
+    display:block; font-family:var(--mono); font-size:11px;
+    letter-spacing:0.18em; text-transform:uppercase; color:var(--ink-dim);
+    margin-bottom:10px;
+  }
+  .revenue-input-wrap{
+    display:flex; align-items:baseline; gap:6px;
+    border:1px solid var(--line);
+    border-radius:12px;
+    background:var(--bg-darker);
+    padding:18px 22px;
+    transition:border-color .2s;
+  }
+  .revenue-input-wrap:focus-within{border-color:var(--flame)}
+  .revenue-input-wrap span.dollar{
+    font-family:var(--display); font-size:36px; color:var(--ink-dim);
+  }
+  #revenue-input{
+    background:transparent; border:0; outline:0; color:var(--cream);
+    font-family:var(--display); font-size:48px; letter-spacing:0.01em;
+    width:100%; padding:0; line-height:1;
+  }
+  #revenue-input::-webkit-outer-spin-button, #revenue-input::-webkit-inner-spin-button{ -webkit-appearance:none; margin:0 }
+  #revenue-input{ -moz-appearance:textfield }
+
+  .slider-wrap{margin-top:24px}
+  input[type="range"]{
+    -webkit-appearance:none; appearance:none;
+    width:100%; height:4px; border-radius:999px;
+    background:linear-gradient(90deg, var(--flame) 0%, var(--flame) var(--p,0%), rgba(244,237,223,0.10) var(--p,0%), rgba(244,237,223,0.10) 100%);
+    outline:none;
+  }
+  input[type="range"]::-webkit-slider-thumb{
+    -webkit-appearance:none; appearance:none;
+    width:22px; height:22px; border-radius:50%;
+    background:var(--cream); border:3px solid var(--bg-deep);
+    box-shadow:0 0 0 1px var(--flame), 0 6px 16px rgba(180,28,28,0.5);
+    cursor:pointer;
+  }
+  input[type="range"]::-moz-range-thumb{
+    width:22px; height:22px; border-radius:50%;
+    background:var(--cream); border:3px solid var(--bg-deep);
+    box-shadow:0 0 0 1px var(--flame), 0 6px 16px rgba(180,28,28,0.5);
+    cursor:pointer;
+  }
+  .slider-marks{
+    display:flex; justify-content:space-between; margin-top:12px;
+    font-family:var(--mono); font-size:11px; color:var(--ink-dim);
+  }
+
+  .calc-results{
+    display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:24px;
+  }
+  .result-cell{
+    background:var(--bg-darker);
+    border:1px solid var(--line);
+    border-radius:12px;
+    padding:16px 18px;
+  }
+  .result-label{
+    font-family:var(--mono); font-size:10.5px; color:var(--ink-dim);
+    letter-spacing:0.16em; text-transform:uppercase;
+  }
+  .result-value{
+    font-family:var(--display); font-size:32px; margin-top:4px;
+    line-height:1; color:var(--cream); letter-spacing:0.01em;
+  }
+  .result-value.flame{ color:var(--flame) }
+  .result-value.amber{ color:var(--amber) }
+  .result-value.green{ color:var(--green) }
+  .result-sub{font-size:12px; color:var(--ink-mute); margin-top:6px}
+
+  .calc-explain{
+    margin-top:20px; padding:16px 18px;
+    background:rgba(232,184,75,0.07);
+    border-left:2px solid var(--amber);
+    border-radius:6px;
+    font-size:13px; color:var(--ink-mute); line-height:1.55;
+  }
+
+  .graph-wrap{
+    background:var(--bg-darker);
+    border:1px solid var(--line);
+    border-radius:var(--radius-lg);
+    padding:22px;
+    height:100%; min-height:380px;
+    display:flex; flex-direction:column;
+  }
+  .graph-head{
+    display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;
+  }
+  .graph-title{font-family:var(--mono); font-size:11px; letter-spacing:0.18em; text-transform:uppercase; color:var(--ink-dim)}
+  .graph-legend{display:flex; gap:14px; font-family:var(--mono); font-size:10.5px; color:var(--ink-mute)}
+  .graph-legend span{display:inline-flex; align-items:center; gap:6px}
+  .graph-legend i{width:8px; height:8px; border-radius:2px; display:inline-block}
+  #tier-graph{width:100%; flex:1; display:block}
+
+  /* TIER STRIP */
+  .tier-strip{
+    margin-top:26px;
+    display:grid; grid-template-columns: repeat(3, 1fr); gap:14px;
+  }
+  @media(max-width:880px){ .tier-strip{grid-template-columns:1fr} }
+  .t-card{
+    background:var(--bg-card);
+    border:1px solid var(--line);
+    border-radius:var(--radius-lg);
+    padding:24px 24px 20px;
+    position:relative; overflow:hidden;
+    transition:transform .3s, border-color .3s, background .3s;
+  }
+  .t-card::before{
+    content:""; position:absolute; left:0; top:0; bottom:0; width:3px;
+    background:var(--ink-dim); transition:background .3s, box-shadow .3s;
+  }
+  .t-card[data-tier="spark"]::before{ background:var(--amber); }
+  .t-card[data-tier="pulse"]::before{ background:var(--flame); }
+  .t-card[data-tier="blaze"]::before{ background:var(--green); }
+  .t-card.active{
+    transform:translateY(-3px);
+    border-color:var(--cream);
+    box-shadow:0 24px 48px -24px rgba(0,0,0,0.55);
+  }
+  .t-card[data-tier="spark"].active::before{ box-shadow:0 0 22px var(--amber) }
+  .t-card[data-tier="pulse"].active::before{ box-shadow:0 0 22px var(--flame) }
+  .t-card[data-tier="blaze"].active::before{ box-shadow:0 0 22px var(--green) }
+
+  .t-head{ display:flex; align-items:baseline; justify-content:space-between; gap:10px; }
+  .t-name{
+    font-family:var(--display); font-size:32px; line-height:1; letter-spacing:0.02em;
+    color:var(--cream);
+  }
+  .t-card[data-tier="spark"] .t-name{ color:var(--amber) }
+  .t-card[data-tier="pulse"] .t-name{ color:var(--flame) }
+  .t-card[data-tier="blaze"] .t-name{ color:var(--green) }
+  .t-tag{
+    font-family:var(--mono); font-size:10.5px; letter-spacing:0.16em;
+    text-transform:uppercase; color:var(--ink-dim);
+  }
+  .t-range{
+    margin-top:8px; font-family:var(--mono); font-size:12.5px; color:var(--ink-mute);
+  }
+  .t-stats{
+    margin-top:18px; padding:14px 0;
+    border-top:1px solid var(--line-soft); border-bottom:1px solid var(--line-soft);
+    display:grid; grid-template-columns:1fr 1fr; gap:10px;
+  }
+  .t-stat-num{ font-family:var(--display); font-size:26px; line-height:1; color:var(--cream); letter-spacing:0.01em; }
+  .t-stat-label{ font-family:var(--mono); font-size:10px; letter-spacing:0.14em; text-transform:uppercase; color:var(--ink-dim); margin-top:6px; }
+  .t-includes{
+    margin-top:14px; display:flex; flex-wrap:wrap; gap:6px;
+  }
+  .t-includes span{
+    font-size:11.5px; padding:4px 9px;
+    background:var(--bg-deep);
+    border:1px solid var(--line);
+    border-radius:999px;
+    color:var(--ink-mute);
+  }
+
+  .tier-note{
+    margin-top:18px; font-family:var(--mono); font-size:11.5px;
+    color:var(--ink-dim); letter-spacing:0.06em;
+    text-align:center;
+  }
+
+  /* GIVES */
+  .gives-grid{
+    display:grid; grid-template-columns: 1.05fr 1fr; gap:22px;
+  }
+  @media(max-width:900px){ .gives-grid{grid-template-columns:1fr} }
+
+  .tools-grid{
+    display:grid; grid-template-columns:repeat(2, 1fr);
+    gap:1px;
+    background:var(--line-soft);
+    border:1px solid var(--line-soft);
+    border-radius:var(--radius-lg);
+    overflow:hidden;
+  }
+  .tool-cell{
+    background:var(--bg-card);
+    padding:18px 18px;
+    display:flex; flex-direction:column; gap:6px;
+    min-height:96px;
+    transition:background .2s;
+  }
+  .tool-cell:hover{ background:var(--bg-deep) }
+  .tool-tag{ font-family:var(--mono); font-size:10px; color:var(--flame); letter-spacing:0.14em; }
+  .tool-cell h4{ font-size:14px; color:var(--cream); }
+  .tool-cell p{ font-size:12.5px }
+
+  /* FLAME-NATIVE MOCKUP */
+  .ecosystem-card{
+    background:linear-gradient(180deg, var(--bg-card), var(--bg-deep));
+    border:1px solid var(--line);
+    border-radius:var(--radius-lg);
+    padding:28px;
+    display:flex; flex-direction:column; gap:18px;
+    position:relative; overflow:hidden;
+  }
+  .ecosystem-card::before{
+    content:""; position:absolute; top:-30%; right:-20%;
+    width:300px; height:300px;
+    background:radial-gradient(circle, rgba(180,28,28,0.15), transparent 60%);
+    pointer-events:none;
+  }
+  .eco-headline{
+    display:flex; align-items:center; gap:12px;
+    font-family:var(--mono); font-size:11px;
+    letter-spacing:0.18em; text-transform:uppercase; color:var(--ink-dim);
+  }
+  .eco-headline::after{
+    content:""; flex:1; height:1px; background:var(--line-soft);
+  }
+  .mock-row{
+    display:grid; grid-template-columns: 1.1fr 1fr; gap:20px; align-items:end;
+    position:relative; z-index:1;
+  }
+  @media(max-width:520px){ .mock-row{grid-template-columns:1fr} }
+
+  .browser{
+    border:1px solid var(--line);
+    border-radius:10px;
+    background:var(--bg-darker);
+    padding:6px;
+    overflow:hidden;
+  }
+  .browser-bar{
+    display:flex; align-items:center; gap:5px; padding:5px 6px 8px;
+    border-bottom:1px solid var(--line-soft); margin-bottom:0;
+  }
+  .browser-bar i{ width:8px; height:8px; border-radius:50%; background:var(--line); display:inline-block }
+  .browser-bar i:nth-child(1){background:#FF5B58}
+  .browser-bar i:nth-child(2){background:var(--amber)}
+  .browser-bar i:nth-child(3){background:var(--green)}
+  .browser-url{
+    margin-left:8px; flex:1; padding:3px 10px;
+    background:var(--bg-deep); border:1px solid var(--line-soft);
+    border-radius:5px;
+    font-family:var(--mono); font-size:10px; color:var(--ink-mute);
+  }
+  .browser-screen{
+    padding:12px; min-height:180px;
+    display:flex; flex-direction:column; gap:10px;
+  }
+  .b-top{
+    display:flex; justify-content:space-between; align-items:center;
+    padding-bottom:8px; border-bottom:1px solid var(--line-soft);
+  }
+  .b-logo{
+    font-family:var(--display); font-size:14px; color:var(--flame); letter-spacing:0.06em;
+  }
+  .b-nav{ display:flex; gap:8px; }
+  .b-nav span{
+    font-family:var(--mono); font-size:8px; color:var(--ink-dim); letter-spacing:0.12em;
+  }
+  .b-event{
+    display:flex; gap:8px; padding:7px;
+    background:var(--bg-deep); border:1px solid var(--line-soft);
+    border-radius:6px; align-items:center;
+  }
+  .b-thumb{
+    width:34px; height:24px; border-radius:3px;
+    background:linear-gradient(135deg, var(--flame), var(--bg-deep));
+    flex-shrink:0;
+  }
+  .b-event:nth-child(2) .b-thumb{ background:linear-gradient(135deg, var(--amber), var(--bg-deep)) }
+  .b-event:nth-child(3) .b-thumb{ background:linear-gradient(135deg, var(--green), var(--bg-deep)) }
+  .b-meta{ flex:1; display:flex; flex-direction:column; gap:3px }
+  .b-title{ height:7px; width:80%; background:rgba(244,237,223,0.5); border-radius:2px; }
+  .b-sub{ height:5px; width:55%; background:var(--ink-dim); border-radius:2px; opacity:0.5; }
+  .b-price{
+    font-family:var(--display-2); font-size:11px; color:var(--cream); letter-spacing:0.04em;
+  }
+
+  .iphone{
+    width:170px; height:340px;
+    border-radius:30px;
+    background:linear-gradient(180deg, #1a1a1c, #0a0a0c);
+    border:2px solid #2a2a2e;
+    padding:7px;
+    margin:0 auto;
+    position:relative;
+    box-shadow: 0 30px 60px -20px rgba(0,0,0,0.6);
+  }
+  .iphone::before{
+    content:""; position:absolute; top:9px; left:50%; transform:translateX(-50%);
+    width:60px; height:18px; border-radius:10px;
+    background:#0a0a0c; z-index:2;
+  }
+  .iscreen{
+    height:100%; border-radius:24px;
+    background:var(--bg-darker);
+    overflow:hidden; position:relative;
+    display:flex; flex-direction:column;
+  }
+  .istatus{
+    height:28px;
+    display:flex; align-items:center; justify-content:space-between;
+    padding:6px 18px 0;
+    font-family:var(--sans); font-size:9px; font-weight:600; color:var(--cream);
+  }
+  .iheader{
+    padding:14px 12px 8px;
+    display:flex; align-items:center; justify-content:space-between;
+  }
+  .ilogo{
+    font-family:var(--display); font-size:15px; color:var(--flame); letter-spacing:0.06em;
+  }
+  .ibell{
+    width:14px; height:14px; border-radius:50%;
+    background:var(--bg-card); border:1px solid var(--line);
+  }
+  .ihero{
+    margin:0 12px; height:80px; border-radius:8px;
+    background: linear-gradient(135deg, var(--flame), var(--bg-deep) 80%);
+    position:relative; overflow:hidden;
+  }
+  .ihero::after{
+    content:"TONIGHT"; position:absolute; left:8px; bottom:6px;
+    font-family:var(--display-2); font-size:11px; color:var(--cream); letter-spacing:0.16em;
+  }
+  .ihero::before{
+    content:""; position:absolute; right:8px; top:8px;
+    width:30px; height:14px; border-radius:3px;
+    background:rgba(244,237,223,0.85);
+    box-shadow:0 0 0 2px rgba(180,28,28,0.5);
+  }
+  .ilist{
+    flex:1; padding:10px 12px;
+    display:flex; flex-direction:column; gap:8px;
+    overflow:hidden;
+  }
+  .ievt{
+    display:flex; gap:8px; padding:7px;
+    background:var(--bg-card); border-radius:6px;
+    align-items:center;
+  }
+  .ievt-thumb{
+    width:32px; height:32px; border-radius:5px;
+    background:linear-gradient(135deg, var(--amber), var(--bg-deep));
+    flex-shrink:0;
+  }
+  .ievt:nth-child(2) .ievt-thumb{ background:linear-gradient(135deg, var(--green), var(--bg-deep)) }
+  .ievt-meta{ flex:1; display:flex; flex-direction:column; gap:3px; }
+  .ievt-title{
+    font-family:var(--sans); font-size:9px; color:var(--cream); font-weight:600;
+  }
+  .ievt-sub{
+    font-family:var(--mono); font-size:7.5px; color:var(--ink-dim); letter-spacing:0.06em;
+  }
+  .itab{
+    padding:8px 0; border-top:1px solid var(--line-soft);
+    display:flex; justify-content:space-around;
+  }
+  .itab i{
+    width:18px; height:18px; border-radius:4px;
+    background:var(--bg-card); display:inline-block;
+  }
+  .itab i.on{ background:var(--flame) }
+
+  /* FINAL CTA */
+  .final{
+    margin-top:60px;
+    border-top:1px solid var(--line-soft);
+    background:
+      radial-gradient(1000px 500px at 50% 0%, rgba(180,28,28,0.32), transparent 60%),
+      radial-gradient(600px 300px at 50% 100%, rgba(200,37,37,0.18), transparent 70%);
+    padding:120px 0 100px;
+    text-align:center;
+  }
+  .final h2{ max-width:760px; margin:0 auto; }
+  .final p.lede{margin:24px auto 36px}
+  .final-ctas{display:inline-flex; flex-wrap:wrap; gap:12px; justify-content:center}
+  .final-end{
+    margin-top:54px; padding-top:30px;
+    font-family:var(--hand); font-size:32px; line-height:1.2;
+    color:var(--amber);
+    border-top:1px solid var(--line-soft);
+    max-width:600px; margin-left:auto; margin-right:auto;
+  }
+  footer.foot{
+    padding:30px 0; border-top:1px solid var(--line-soft);
+    font-family:var(--mono); font-size:11px; color:var(--ink-dim);
+    letter-spacing:0.12em; text-transform:uppercase;
+  }
+  .foot-inner{
+    max-width:var(--container); margin:0 auto; padding:0 28px;
+    display:flex; justify-content:space-between; align-items:center; gap:14px;
+    flex-wrap:wrap;
+  }
+
+  /* LANG */
+  [data-lang]{display:none}
+  body[data-active-lang="en"] [data-lang="en"]{display:revert}
+  body[data-active-lang="it"] [data-lang="it"]{display:revert}
+
+  /* reveal */
+  .reveal{opacity:0; transform:translateY(14px); transition:opacity .8s, transform .8s}
+  .reveal.in{opacity:1; transform:translateY(0)}
+</style>
+</head>
+<body data-active-lang="en">
+
+<!-- NAV -->
+<nav class="top">
+  <div class="nav-inner">
+    <a href="#top" class="logo"><span class="logo-mark"></span>FLAME</a>
+    <div class="nav-links">
+      <a href="#why" data-lang="en">Why FLAME</a><a href="#why" data-lang="it">Perché FLAME</a>
+      <a href="#model" data-lang="en">Model</a><a href="#model" data-lang="it">Modello</a>
+      <a href="#calc" data-lang="en">Calculator</a><a href="#calc" data-lang="it">Calcolatore</a>
+      <a href="#cta" data-lang="en">Contact</a><a href="#cta" data-lang="it">Contatti</a>
+    </div>
+    <div class="lang-switch" role="tablist" aria-label="Language">
+      <button class="on" data-set-lang="en" type="button">EN</button>
+      <button data-set-lang="it" type="button">IT</button>
+    </div>
+    <button class="nav-cta" onclick="bookDemo()">
+      <span data-lang="en">Book a demo</span><span data-lang="it">Prenota una demo</span>
+    </button>
+  </div>
+</nav>
+
+<main id="top">
+
+<!-- 1. HERO -->
+<section class="hero wrap">
+  <div class="hero-grid">
+    <div class="reveal">
+      <span class="eyebrow">
+        <span data-lang="en">Event ticketing &amp; growth platform</span>
+        <span data-lang="it">Ticketing &amp; crescita per locali</span>
+      </span>
+      <h1>
+        <span class="line" data-lang="en">The ticketing partner</span>
+        <span class="line" data-lang="it">Il partner di ticketing</span>
+        <span class="line" data-lang="en">that <span class="hl">grows</span> <span class="script">with you</span></span>
+        <span class="line" data-lang="it">che <span class="hl">cresce</span> <span class="script">con te</span></span>
+      </h1>
+      <p class="lede">
+        <span data-lang="en">Sell tickets, manage guests, control access, track revenue live — and unlock cashback plus co-branded marketing as your volume grows.</span>
+        <span data-lang="it">Vendi ticket, gestisci ospiti, controlla gli accessi, monitora le vendite in tempo reale — e sblocca cashback e marketing co-branded man mano che il volume cresce.</span>
+      </p>
+      <div class="hero-ctas">
+        <button class="btn btn-primary" onclick="document.querySelector('#model').scrollIntoView({behavior:'smooth'})">
+          <span data-lang="en">Explore the model</span><span data-lang="it">Esplora il modello</span>
+          <span class="arrow">→</span>
+        </button>
+        <button class="btn btn-ghost" onclick="document.querySelector('#calc').scrollIntoView({behavior:'smooth'})">
+          <span data-lang="en">Calculate your tier</span><span data-lang="it">Calcola il tuo tier</span>
+        </button>
+      </div>
+    </div>
+    <div class="hero-stats reveal">
+      <div class="stat">
+        <div class="stat-num flame">0&thinsp;€</div>
+        <div class="stat-label"><span data-lang="en">Cost to organizer — customer covers fees</span><span data-lang="it">Costo per l'organizzatore — la fee è del cliente</span></div>
+      </div>
+      <div class="stat">
+        <div class="stat-num"><span data-lang="en">Web + iOS</span><span data-lang="it">Web + iOS</span></div>
+        <div class="stat-label"><span data-lang="en">Native iPhone app and full website, live today</span><span data-lang="it">App iPhone nativa e sito completo, live oggi</span></div>
+      </div>
+      <div class="stat">
+        <div class="stat-num amber"><span data-lang="en">Up to 15%</span><span data-lang="it">Fino al 15%</span></div>
+        <div class="stat-label"><span data-lang="en">Cashback on FLAME's net fee profit</span><span data-lang="it">Cashback sul profitto netto delle fee di FLAME</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="marquee">
+    <div class="marquee-track">
+      <span data-lang="en">Stripe-powered</span><span data-lang="it">Stripe-powered</span>
+      <span data-lang="en">Live today</span><span data-lang="it">Live oggi</span>
+      <span data-lang="en">QR ticketing</span><span data-lang="it">QR ticketing</span>
+      <span data-lang="en">RSVP &amp; access codes</span><span data-lang="it">RSVP e access code</span>
+      <span data-lang="en">Real-time dashboard</span><span data-lang="it">Dashboard live</span>
+      <span data-lang="en">24/7 support</span><span data-lang="it">Supporto 24/7</span>
+      <span data-lang="en">Co-branded marketing</span><span data-lang="it">Marketing co-branded</span>
+      <span data-lang="en">Native iOS app</span><span data-lang="it">App iOS nativa</span>
+      <span data-lang="en">Stripe-powered</span><span data-lang="it">Stripe-powered</span>
+      <span data-lang="en">Live today</span><span data-lang="it">Live oggi</span>
+      <span data-lang="en">QR ticketing</span><span data-lang="it">QR ticketing</span>
+      <span data-lang="en">RSVP &amp; access codes</span><span data-lang="it">RSVP e access code</span>
+      <span data-lang="en">Real-time dashboard</span><span data-lang="it">Dashboard live</span>
+      <span data-lang="en">24/7 support</span><span data-lang="it">Supporto 24/7</span>
+      <span data-lang="en">Co-branded marketing</span><span data-lang="it">Marketing co-branded</span>
+      <span data-lang="en">Native iOS app</span><span data-lang="it">App iOS nativa</span>
+    </div>
+  </div>
+</section>
+
+<!-- 2. WHY FLAME -->
+<section id="why" class="wrap">
+  <div class="section-head">
+    <span class="eyebrow">02 — <span data-lang="en">Why FLAME</span><span data-lang="it">Perché FLAME</span></span>
+    <h2>
+      <span data-lang="en">Ticketing should not be a <span class="hl">cost center</span>.</span>
+      <span data-lang="it">Il ticketing non dovrebbe essere un <span class="hl">costo</span>.</span>
+    </h2>
+    <p class="lede">
+      <span data-lang="en">FLAME is a full event platform — web and native iOS — built for clubs, venues, and event organizers. Two surfaces, one ecosystem, zero upfront cost.</span>
+      <span data-lang="it">FLAME è una piattaforma eventi completa — web e iOS nativa — pensata per club, locali e organizzatori. Due superfici, un solo ecosistema, zero costo iniziale.</span>
+    </p>
+  </div>
+
+  <div class="why-grid">
+    <div class="why-card">
+      <div class="why-head">
+        <div class="why-icon">◑</div>
+        <h3><span data-lang="en">For organizers</span><span data-lang="it">Per gli organizzatori</span></h3>
+      </div>
+      <ul class="feat-list">
+        <li><span data-lang="en">Create events end-to-end on web and iOS</span><span data-lang="it">Crea eventi end-to-end su web e iOS</span></li>
+        <li><span data-lang="en">Manage tickets, RSVPs, promo codes, access codes</span><span data-lang="it">Gestisci ticket, RSVP, codici promo, codici d'accesso</span></li>
+        <li><span data-lang="en">Scan at the door — web or iPhone camera</span><span data-lang="it">Scansiona all'ingresso — web o fotocamera iPhone</span></li>
+        <li><span data-lang="en">Track revenue, attendees and promoters live</span><span data-lang="it">Monitora ricavi, presenze e promoter in tempo reale</span></li>
+      </ul>
+    </div>
+    <div class="why-card">
+      <div class="why-head">
+        <div class="why-icon amber">◐</div>
+        <h3><span data-lang="en">For attendees</span><span data-lang="it">Per gli attendee</span></h3>
+      </div>
+      <ul class="feat-list amber">
+        <li><span data-lang="en">Discover events, buy tickets, RSVP to private nights</span><span data-lang="it">Scopri eventi, compra ticket, RSVP a serate private</span></li>
+        <li><span data-lang="en">Pay with Apple Pay or card via Stripe</span><span data-lang="it">Paga con Apple Pay o carta tramite Stripe</span></li>
+        <li><span data-lang="en">Receive QR tickets in email and Flame Wallet</span><span data-lang="it">Ricevi ticket QR via email e nel Flame Wallet</span></li>
+        <li><span data-lang="en">Push and inbox notifications on iPhone</span><span data-lang="it">Notifiche push e in-app su iPhone</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="pain-strip">
+    <div class="pain-cell">
+      <span class="pain-x">✕</span>
+      <h4><span data-lang="en">High setup costs</span><span data-lang="it">Costi di setup alti</span></h4>
+      <p><span data-lang="en">Modules and onboarding billed before a ticket sells.</span><span data-lang="it">Moduli e onboarding fatturati prima di vendere.</span></p>
+    </div>
+    <div class="pain-cell">
+      <span class="pain-x">✕</span>
+      <h4><span data-lang="en">Months to launch</span><span data-lang="it">Mesi per partire</span></h4>
+      <p><span data-lang="en">Long implementations, late go-live.</span><span data-lang="it">Implementazioni lunghe, go-live tardivo.</span></p>
+    </div>
+    <div class="pain-cell">
+      <span class="pain-x">✕</span>
+      <h4><span data-lang="en">No cashback</span><span data-lang="it">Nessun cashback</span></h4>
+      <p><span data-lang="en">You bring the audience, they keep the upside.</span><span data-lang="it">Tu porti il pubblico, loro tengono il valore.</span></p>
+    </div>
+    <div class="pain-cell">
+      <span class="pain-x">✕</span>
+      <h4><span data-lang="en">Marketing on the side</span><span data-lang="it">Marketing separato</span></h4>
+      <p><span data-lang="en">Promotion is a separate vendor and budget.</span><span data-lang="it">Promozione = fornitore e budget a parte.</span></p>
+    </div>
+  </div>
+</section>
+
+<!-- 3. HOW THE MODEL WORKS -->
+<section id="model" class="wrap">
+  <div class="section-head">
+    <span class="eyebrow">03 — <span data-lang="en">How it works</span><span data-lang="it">Come funziona</span></span>
+    <h2>
+      <span data-lang="en">Zero upfront. <span class="hl">Shared upside.</span></span>
+      <span data-lang="it">Zero iniziale. <span class="hl">Crescita condivisa.</span></span>
+    </h2>
+    <p class="lede">
+      <span data-lang="en">You set the ticket price. The customer pays the platform fee on top. You receive what you set. FLAME earns from its net fee profit — and shares part of that profit back with you. The more you sell, the more FLAME reinvests in your growth.</span>
+      <span data-lang="it">Tu fissi il prezzo del ticket. Il cliente paga la fee sopra. Tu incassi quello che hai fissato. FLAME guadagna dal profitto netto delle fee — e ne condivide una parte con te. Più vendi, più FLAME reinveste nella tua crescita.</span>
+    </p>
+  </div>
+
+  <div class="flow">
+    <div class="flow-steps">
+      <div class="flow-step">
+        <div class="flow-num">01</div>
+        <div class="flow-title"><span data-lang="en">You create</span><span data-lang="it">Tu crei</span></div>
+        <div class="flow-desc"><span data-lang="en">Set price, tiers, RSVP, and access rules.</span><span data-lang="it">Fissa prezzo, tier, RSVP e regole d'accesso.</span></div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">02</div>
+        <div class="flow-title"><span data-lang="en">Customer buys</span><span data-lang="it">Il cliente compra</span></div>
+        <div class="flow-desc"><span data-lang="en">Customer covers the platform fee.</span><span data-lang="it">Il cliente paga la fee.</span></div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">03</div>
+        <div class="flow-title"><span data-lang="en">Stripe processes</span><span data-lang="it">Stripe processa</span></div>
+        <div class="flow-desc"><span data-lang="en">PCI-compliant, fraud-protected.</span><span data-lang="it">PCI compliant, anti-frode.</span></div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">04</div>
+        <div class="flow-title"><span data-lang="en">You keep price</span><span data-lang="it">Tu incassi</span></div>
+        <div class="flow-desc"><span data-lang="en">Exactly what you set on the ticket.</span><span data-lang="it">Esattamente il prezzo che hai fissato.</span></div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">05</div>
+        <div class="flow-title"><span data-lang="en">Cashback returns</span><span data-lang="it">Cashback torna</span></div>
+        <div class="flow-desc"><span data-lang="en">A share of FLAME's net profit comes back.</span><span data-lang="it">Una quota del profitto netto FLAME torna.</span></div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">06</div>
+        <div class="flow-title"><span data-lang="en">Marketing reinvested</span><span data-lang="it">Marketing reinvestito</span></div>
+        <div class="flow-desc"><span data-lang="en">Higher tier = bigger co-branded budget.</span><span data-lang="it">Tier più alto = budget co-branded più grande.</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 4. INTERACTIVE GROWTH CALCULATOR + 5. COMPACT TIERS -->
+<section id="calc" class="wrap">
+  <div class="section-head">
+    <span class="eyebrow">04 — <span data-lang="en">Interactive</span><span data-lang="it">Interattivo</span></span>
+    <h2>
+      <span data-lang="en">Calculate your <span class="hl">growth tier</span>.</span>
+      <span data-lang="it">Calcola il tuo <span class="hl">livello di crescita</span>.</span>
+    </h2>
+    <p class="lede">
+      <span data-lang="en">Drag the slider or type your expected yearly gross revenue. The graph and tier card update live.</span>
+      <span data-lang="it">Trascina lo slider o digita il tuo fatturato annuo lordo previsto. Il grafico e il tier si aggiornano in tempo reale.</span>
+    </p>
+  </div>
+
+  <div class="calc">
+    <div class="calc-grid">
+      <div class="calc-control">
+        <label><span data-lang="en">Yearly gross revenue</span><span data-lang="it">Fatturato annuo lordo</span></label>
+        <div class="revenue-input-wrap">
+          <span class="dollar">$</span>
+          <input id="revenue-input" type="number" min="0" max="2000000" step="5000" value="75000" />
+        </div>
+        <div class="slider-wrap">
+          <input id="revenue-slider" type="range" min="0" max="1000000" step="5000" value="75000" />
+          <div class="slider-marks">
+            <span>$0</span><span>$250K</span><span>$500K</span><span>$750K</span><span>$1M+</span>
+          </div>
+        </div>
+
+        <div class="calc-results">
+          <div class="result-cell">
+            <div class="result-label"><span data-lang="en">Current tier</span><span data-lang="it">Tier attuale</span></div>
+            <div class="result-value flame" id="r-tier">Spark</div>
+            <div class="result-sub" id="r-tier-why">
+              <span data-lang="en">For emerging venues and trial seasons.</span>
+              <span data-lang="it">Per venue emergenti e stagioni di prova.</span>
+            </div>
+          </div>
+          <div class="result-cell">
+            <div class="result-label"><span data-lang="en">Cashback</span><span data-lang="it">Cashback</span></div>
+            <div class="result-value amber" id="r-cb">5%</div>
+            <div class="result-sub"><span data-lang="en">on FLAME's net fee profit</span><span data-lang="it">sul profitto netto delle fee</span></div>
+          </div>
+          <div class="result-cell">
+            <div class="result-label"><span data-lang="en">Marketing investment</span><span data-lang="it">Investimento marketing</span></div>
+            <div class="result-value green" id="r-mkt">€5,000</div>
+            <div class="result-sub"><span data-lang="en">co-branded reinvestment</span><span data-lang="it">reinvestimento co-branded</span></div>
+          </div>
+          <div class="result-cell">
+            <div class="result-label"><span data-lang="en">Selected revenue</span><span data-lang="it">Fatturato selezionato</span></div>
+            <div class="result-value" id="r-rev">$75,000</div>
+            <div class="result-sub"><span data-lang="en">yearly gross</span><span data-lang="it">lordo annuo</span></div>
+          </div>
+        </div>
+
+        <div class="calc-explain">
+          <span data-lang="en"><strong style="color:var(--cream)">Note —</strong> Cashback is calculated on FLAME's net fee profits, not directly on your gross revenue. Your yearly gross revenue defines the tier you unlock.</span>
+          <span data-lang="it"><strong style="color:var(--cream)">Nota —</strong> Il cashback è calcolato sui profitti netti delle fee di FLAME, non direttamente sul tuo fatturato lordo. Il fatturato annuo serve a determinare il tier che sblocchi.</span>
+        </div>
+      </div>
+
+      <div class="graph-wrap">
+        <div class="graph-head">
+          <span class="graph-title"><span data-lang="en">Revenue → cashback %</span><span data-lang="it">Fatturato → cashback %</span></span>
+          <div class="graph-legend">
+            <span><i style="background:#E8B84B"></i>5%</span>
+            <span><i style="background:#B41C1C"></i>10%</span>
+            <span><i style="background:#4FC48A"></i>15%</span>
+          </div>
+        </div>
+        <svg id="tier-graph" viewBox="0 0 600 360" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+          <defs>
+            <linearGradient id="sparkFill" x1="0" x2="0" y1="0" y2="1">
+              <stop offset="0%" stop-color="#E8B84B" stop-opacity="0.40"/>
+              <stop offset="100%" stop-color="#E8B84B" stop-opacity="0"/>
+            </linearGradient>
+            <linearGradient id="pulseFill" x1="0" x2="0" y1="0" y2="1">
+              <stop offset="0%" stop-color="#B41C1C" stop-opacity="0.45"/>
+              <stop offset="100%" stop-color="#B41C1C" stop-opacity="0"/>
+            </linearGradient>
+            <linearGradient id="blazeFill" x1="0" x2="0" y1="0" y2="1">
+              <stop offset="0%" stop-color="#4FC48A" stop-opacity="0.45"/>
+              <stop offset="100%" stop-color="#4FC48A" stop-opacity="0"/>
+            </linearGradient>
+            <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+              <feGaussianBlur stdDeviation="6" result="blur"/>
+              <feMerge>
+                <feMergeNode in="blur"/>
+                <feMergeNode in="SourceGraphic"/>
+              </feMerge>
+            </filter>
+          </defs>
+
+          <g stroke="rgba(244,237,223,0.08)" stroke-width="1">
+            <line x1="50" y1="50" x2="580" y2="50"/>
+            <line x1="50" y1="120" x2="580" y2="120"/>
+            <line x1="50" y1="190" x2="580" y2="190"/>
+            <line x1="50" y1="260" x2="580" y2="260"/>
+          </g>
+
+          <g fill="rgba(244,237,223,0.45)" font-family="JetBrains Mono, monospace" font-size="10">
+            <text x="42" y="54" text-anchor="end">15%</text>
+            <text x="42" y="124" text-anchor="end">10%</text>
+            <text x="42" y="194" text-anchor="end">5%</text>
+            <text x="42" y="264" text-anchor="end">0%</text>
+          </g>
+
+          <g fill="rgba(244,237,223,0.45)" font-family="JetBrains Mono, monospace" font-size="10">
+            <text x="50" y="340">$0</text>
+            <text x="184" y="340">$100K</text>
+            <text x="343" y="340" text-anchor="middle">$500K</text>
+            <text x="580" y="340" text-anchor="end">$1M</text>
+          </g>
+
+          <rect x="50" y="190" width="134" height="70" fill="url(#sparkFill)"/>
+          <line x1="50" y1="190" x2="184" y2="190" stroke="#E8B84B" stroke-width="2"/>
+
+          <rect x="184" y="120" width="159" height="140" fill="url(#pulseFill)"/>
+          <line x1="184" y1="120" x2="343" y2="120" stroke="#B41C1C" stroke-width="2"/>
+
+          <rect x="343" y="50" width="237" height="210" fill="url(#blazeFill)"/>
+          <line x1="343" y1="50" x2="580" y2="50" stroke="#4FC48A" stroke-width="2"/>
+
+          <line x1="184" y1="190" x2="184" y2="120" stroke="#B41C1C" stroke-width="2" stroke-dasharray="3 3"/>
+          <line x1="343" y1="120" x2="343" y2="50" stroke="#4FC48A" stroke-width="2" stroke-dasharray="3 3"/>
+
+          <g font-family="Anton, sans-serif" font-size="14" fill="rgba(244,237,223,0.85)" letter-spacing="0.06em">
+            <text x="117" y="180" text-anchor="middle">SPARK</text>
+            <text x="263" y="110" text-anchor="middle">PULSE</text>
+            <text x="461" y="40" text-anchor="middle">BLAZE</text>
+          </g>
+
+          <line x1="50" y1="260" x2="580" y2="260" stroke="rgba(244,237,223,0.15)" stroke-width="1"/>
+
+          <g id="marker">
+            <line id="marker-vline" x1="100" y1="260" x2="100" y2="190" stroke="#F4EDDF" stroke-width="1.5" stroke-dasharray="2 3" opacity="0.45"/>
+            <circle id="marker-dot" cx="100" cy="190" r="9" fill="#E8B84B" filter="url(#glow)"/>
+            <circle cx="100" cy="190" r="4" fill="#F4EDDF" id="marker-inner"/>
+          </g>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <!-- COMPACT TIER STRIP -->
+  <div class="tier-strip" id="tier-cards">
+    <div class="t-card" data-tier="spark">
+      <div class="t-head">
+        <div class="t-name">Spark</div>
+        <div class="t-tag">Tier 1</div>
+      </div>
+      <div class="t-range">$0 — $100K <span data-lang="en">gross / yr</span><span data-lang="it">lordo / anno</span></div>
+      <div class="t-stats">
+        <div>
+          <div class="t-stat-num">5%</div>
+          <div class="t-stat-label"><span data-lang="en">Cashback</span><span data-lang="it">Cashback</span></div>
+        </div>
+        <div>
+          <div class="t-stat-num">€5K</div>
+          <div class="t-stat-label"><span data-lang="en">Marketing</span><span data-lang="it">Marketing</span></div>
+        </div>
+      </div>
+      <div class="t-includes">
+        <span>IG ads</span>
+        <span data-lang="en">Local micro-influencers</span><span data-lang="it">Micro-influencer locali</span>
+        <span data-lang="en">Digital co-branding</span><span data-lang="it">Co-branding digitale</span>
+      </div>
+    </div>
+    <div class="t-card" data-tier="pulse">
+      <div class="t-head">
+        <div class="t-name">Pulse</div>
+        <div class="t-tag">Tier 2</div>
+      </div>
+      <div class="t-range">$100K — $500K <span data-lang="en">gross / yr</span><span data-lang="it">lordo / anno</span></div>
+      <div class="t-stats">
+        <div>
+          <div class="t-stat-num">10%</div>
+          <div class="t-stat-label"><span data-lang="en">Cashback</span><span data-lang="it">Cashback</span></div>
+        </div>
+        <div>
+          <div class="t-stat-num">€10K</div>
+          <div class="t-stat-label"><span data-lang="en">Marketing</span><span data-lang="it">Marketing</span></div>
+        </div>
+      </div>
+      <div class="t-includes">
+        <span data-lang="en">Premium IG ads</span><span data-lang="it">IG ads premium</span>
+        <span data-lang="en">Online visibility</span><span data-lang="it">Visibilità online</span>
+        <span data-lang="en">Seasonal co-branding</span><span data-lang="it">Co-branding stagionale</span>
+      </div>
+    </div>
+    <div class="t-card" data-tier="blaze">
+      <div class="t-head">
+        <div class="t-name">Blaze</div>
+        <div class="t-tag">Tier 3</div>
+      </div>
+      <div class="t-range">$500K+ <span data-lang="en">gross / yr</span><span data-lang="it">lordo / anno</span></div>
+      <div class="t-stats">
+        <div>
+          <div class="t-stat-num">15%</div>
+          <div class="t-stat-label"><span data-lang="en">Cashback</span><span data-lang="it">Cashback</span></div>
+        </div>
+        <div>
+          <div class="t-stat-num">€25K</div>
+          <div class="t-stat-label"><span data-lang="en">Marketing</span><span data-lang="it">Marketing</span></div>
+        </div>
+      </div>
+      <div class="t-includes">
+        <span data-lang="en">Luxury print</span><span data-lang="it">Print luxury</span>
+        <span data-lang="en">Digital campaigns</span><span data-lang="it">Campagne digitali</span>
+        <span>PR</span>
+        <span data-lang="en">Co-branded events</span><span data-lang="it">Eventi co-branded</span>
+      </div>
+    </div>
+  </div>
+
+  <p class="tier-note">
+    <span data-lang="en">Quarterly review · Annual tier recalculation · FLAME exclusivity available in the agreement</span>
+    <span data-lang="it">Revisione trimestrale · Ricalcolo annuale del tier · Esclusività FLAME disponibile nell'accordo</span>
+  </p>
+</section>
+
+<!-- 6. WHAT FLAME GIVES YOU -->
+<section id="gives" class="wrap">
+  <div class="section-head">
+    <span class="eyebrow">05 — <span data-lang="en">What FLAME gives you</span><span data-lang="it">Cosa ti dà FLAME</span></span>
+    <h2>
+      <span data-lang="en">One platform. <span class="hl">Two surfaces.</span> Every tool you need.</span>
+      <span data-lang="it">Una piattaforma. <span class="hl">Due superfici.</span> Tutti gli strumenti.</span>
+    </h2>
+  </div>
+
+  <div class="gives-grid">
+    <div class="tools-grid">
+      <div class="tool-cell">
+        <span class="tool-tag">EVT</span>
+        <h4><span data-lang="en">Events &amp; tickets</span><span data-lang="it">Eventi &amp; ticket</span></h4>
+        <p><span data-lang="en">Multiple tiers, dynamic pricing, sales windows, per-person limits.</span><span data-lang="it">Tier multipli, prezzo dinamico, finestre di vendita, limiti per persona.</span></p>
+      </div>
+      <div class="tool-cell">
+        <span class="tool-tag">RSV</span>
+        <h4><span data-lang="en">RSVP &amp; access</span><span data-lang="it">RSVP &amp; accessi</span></h4>
+        <p><span data-lang="en">Approve/reject flow, custom questions, access codes, ID verification.</span><span data-lang="it">Approva/rifiuta, domande custom, access code, verifica ID.</span></p>
+      </div>
+      <div class="tool-cell">
+        <span class="tool-tag">PRM</span>
+        <h4><span data-lang="en">Promo &amp; promoters</span><span data-lang="it">Promo &amp; promoter</span></h4>
+        <p><span data-lang="en">Promo codes 5–100%, complimentary tickets, promoter tracking links.</span><span data-lang="it">Promo 5–100%, ticket complimentari, link di tracking per promoter.</span></p>
+      </div>
+      <div class="tool-cell">
+        <span class="tool-tag">QR</span>
+        <h4><span data-lang="en">QR door scanner</span><span data-lang="it">Scanner QR all'ingresso</span></h4>
+        <p><span data-lang="en">Web + native iOS camera, real-time duplicate prevention.</span><span data-lang="it">Web + fotocamera iOS nativa, anti-duplicato in tempo reale.</span></p>
+      </div>
+      <div class="tool-cell">
+        <span class="tool-tag">LIV</span>
+        <h4><span data-lang="en">Real-time dashboard</span><span data-lang="it">Dashboard live</span></h4>
+        <p><span data-lang="en">Sales, revenue, attendees and RSVP across organizations.</span><span data-lang="it">Vendite, ricavi, presenze e RSVP su tutte le organizzazioni.</span></p>
+      </div>
+      <div class="tool-cell">
+        <span class="tool-tag">TM</span>
+        <h4><span data-lang="en">Team &amp; co-hosts</span><span data-lang="it">Team &amp; co-host</span></h4>
+        <p><span data-lang="en">Roles, event assignments, co-host organizations, Stripe payouts.</span><span data-lang="it">Ruoli, assegnazione eventi, organizzazioni co-host, payout Stripe.</span></p>
+      </div>
+    </div>
+
+    <div class="ecosystem-card">
+      <div class="eco-headline">
+        <span data-lang="en">Web + iOS · same data</span>
+        <span data-lang="it">Web + iOS · stessi dati</span>
+      </div>
+
+      <div class="mock-row">
+        <div class="browser">
+          <div class="browser-bar">
+            <i></i><i></i><i></i>
+            <span class="browser-url">flame.events / dashboard</span>
+          </div>
+          <div class="browser-screen">
+            <div class="b-top">
+              <div class="b-logo">FLAME</div>
+              <div class="b-nav"><span>EVENTS</span><span>SCAN</span><span>TEAM</span></div>
+            </div>
+            <div class="b-event">
+              <div class="b-thumb"></div>
+              <div class="b-meta"><div class="b-title"></div><div class="b-sub"></div></div>
+              <div class="b-price">€25</div>
+            </div>
+            <div class="b-event">
+              <div class="b-thumb"></div>
+              <div class="b-meta"><div class="b-title"></div><div class="b-sub"></div></div>
+              <div class="b-price">RSVP</div>
+            </div>
+            <div class="b-event">
+              <div class="b-thumb"></div>
+              <div class="b-meta"><div class="b-title"></div><div class="b-sub"></div></div>
+              <div class="b-price">€50</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="iphone">
+          <div class="iscreen">
+            <div class="istatus">
+              <span>11:09</span>
+              <span>●●● 4G ▮</span>
+            </div>
+            <div class="iheader">
+              <div class="ilogo">FLAME</div>
+              <div class="ibell"></div>
+            </div>
+            <div class="ihero"></div>
+            <div class="ilist">
+              <div class="ievt">
+                <div class="ievt-thumb"></div>
+                <div class="ievt-meta">
+                  <div class="ievt-title">Saturday Night</div>
+                  <div class="ievt-sub">FRI · 23:00</div>
+                </div>
+              </div>
+              <div class="ievt">
+                <div class="ievt-thumb"></div>
+                <div class="ievt-meta">
+                  <div class="ievt-title">VIP Lounge</div>
+                  <div class="ievt-sub">SAT · 22:30</div>
+                </div>
+              </div>
+            </div>
+            <div class="itab">
+              <i class="on"></i><i></i><i></i><i></i><i></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 6. FINAL CTA -->
+<section id="cta" class="final">
+  <div class="wrap">
+    <span class="eyebrow">06 — <span data-lang="en">Get started</span><span data-lang="it">Inizia</span></span>
+    <h2 style="margin-top:14px">
+      <span data-lang="en">Start selling. Start growing. <span class="hl">Start earning back.</span></span>
+      <span data-lang="it">Inizia a vendere. Inizia a crescere. <span class="hl">Inizia a ricevere valore.</span></span>
+    </h2>
+    <p class="lede">
+      <span data-lang="en">Zero upfront cost. Zero risk. The platform is live today.</span>
+      <span data-lang="it">Zero costo iniziale. Zero rischio. La piattaforma è live oggi.</span>
+    </p>
+    <div class="final-ctas">
+      <button class="btn btn-primary" onclick="bookDemo()"><span data-lang="en">Book a demo</span><span data-lang="it">Prenota una demo</span><span class="arrow">→</span></button>
+      <button class="btn btn-ghost" onclick="document.querySelector('#calc').scrollIntoView({behavior:'smooth'})"><span data-lang="en">Calculate your tier</span><span data-lang="it">Calcola il tuo tier</span></button>
+    </div>
+    <div class="final-end">
+      <span data-lang="en">FLAME grows when your venue grows.</span>
+      <span data-lang="it">FLAME cresce quando cresce il tuo locale.</span>
+    </div>
+  </div>
+</section>
+
+<footer class="foot">
+  <div class="foot-inner">
+    <span>© 2026 FLAME · <span data-lang="en">Confidential</span><span data-lang="it">Riservato</span></span>
+    <span><a href="mailto:hello@flme.co" style="color:var(--cream); text-decoration:none; border-bottom:1px solid rgba(244,237,223,0.3); padding-bottom:1px;">hello@flme.co</a></span>
+    <span><span data-lang="en">Powered by Stripe · PCI compliant</span><span data-lang="it">Powered by Stripe · PCI compliant</span></span>
+  </div>
+</footer>
+
+</main>
+
+<script>
+/* ===================== BOOK A DEMO — MAILTO ===================== */
+const DEMO_EMAIL = 'hello@flme.co';
+const DEMO_TEMPLATES = {
+  en: {
+    subject: 'Demo request — FLAME',
+    body:
+`Hi FLAME team,
+
+I'd like to book a demo for my venue.
+
+— Venue / organization name:
+— City / country:
+— Estimated yearly gross revenue:
+— Type of events (club nights, festivals, private events, etc.):
+— Preferred date / time for the demo:
+— My name:
+— Phone:
+
+Thanks,`
+  },
+  it: {
+    subject: 'Richiesta demo — FLAME',
+    body:
+`Ciao team FLAME,
+
+Vorrei prenotare una demo per il mio locale.
+
+— Nome locale / organizzazione:
+— Città / paese:
+— Fatturato annuo lordo previsto:
+— Tipo di eventi (serate club, festival, eventi privati, ecc.):
+— Data / orario preferiti per la demo:
+— Il mio nome:
+— Telefono:
+
+Grazie,`
+  }
+};
+function bookDemo(){
+  const lang = document.body.getAttribute('data-active-lang') || 'en';
+  const t = DEMO_TEMPLATES[lang];
+  const url = `mailto:${DEMO_EMAIL}?subject=${encodeURIComponent(t.subject)}&body=${encodeURIComponent(t.body)}`;
+  window.location.href = url;
+}
+
+const langButtons = document.querySelectorAll('[data-set-lang]');
+langButtons.forEach(btn => {
+  btn.addEventListener('click', () => {
+    const lang = btn.getAttribute('data-set-lang');
+    document.body.setAttribute('data-active-lang', lang);
+    document.documentElement.setAttribute('lang', lang);
+    langButtons.forEach(b => b.classList.toggle('on', b === btn));
+    updateCalc();
+  });
+});
+
+const slider = document.getElementById('revenue-slider');
+const input  = document.getElementById('revenue-input');
+const rTier  = document.getElementById('r-tier');
+const rTierWhy = document.getElementById('r-tier-why');
+const rCB    = document.getElementById('r-cb');
+const rMkt   = document.getElementById('r-mkt');
+const rRev   = document.getElementById('r-rev');
+const cards  = document.querySelectorAll('#tier-cards .t-card');
+
+const TIER_DESC = {
+  spark:{ en:'For emerging venues, new acquisitions, and trial seasons.', it:'Per venue emergenti, nuove acquisizioni e stagioni di prova.' },
+  pulse:{ en:'For established clubs with strong seasonal activity.',     it:'Per club consolidati con stagione di alto livello.' },
+  blaze:{ en:'For iconic venues, multi-format, and international scale.', it:'Per venue iconici, multi-format e scala internazionale.' }
+};
+
+function fmtUSD(n){
+  if(n >= 1000000) return '$' + (n/1000000).toFixed(n%1000000===0?0:2) + 'M';
+  if(n >= 1000) return '$' + Math.round(n/1000) + 'K';
+  return '$' + n;
+}
+function fmtEUR(n){ return '€' + n.toLocaleString('en-US') }
+
+function tierFor(rev){
+  if(rev <= 100000) return 'spark';
+  if(rev <= 500000) return 'pulse';
+  return 'blaze';
+}
+const TIER_VALUES = {
+  spark:{ cb:5,  mkt:5000,  color:'#E8B84B' },
+  pulse:{ cb:10, mkt:10000, color:'#B41C1C' },
+  blaze:{ cb:15, mkt:25000, color:'#4FC48A' }
+};
+
+const GRAPH = {
+  xMin:50, xMax:580,
+  yZero:260,
+  ySpark:190,
+  yPulse:120,
+  yBlaze:50,
+  revAtXMax: 1000000
+};
+
+function xForRevenue(rev){
+  const r = Math.min(rev, GRAPH.revAtXMax);
+  return GRAPH.xMin + (r / GRAPH.revAtXMax) * (GRAPH.xMax - GRAPH.xMin);
+}
+function yForTier(t){
+  return t === 'spark' ? GRAPH.ySpark : t === 'pulse' ? GRAPH.yPulse : GRAPH.yBlaze;
+}
+
+function updateCalc(){
+  let rev = parseInt(input.value || '0', 10);
+  if(isNaN(rev) || rev < 0) rev = 0;
+  if(rev > 2000000) rev = 2000000;
+
+  slider.value = Math.min(rev, 1000000);
+  const pct = (Math.min(rev,1000000) / 1000000) * 100;
+  slider.style.setProperty('--p', pct + '%');
+
+  const t = tierFor(rev);
+  const v = TIER_VALUES[t];
+  const lang = document.body.getAttribute('data-active-lang');
+
+  rTier.textContent = t.charAt(0).toUpperCase() + t.slice(1);
+  rTier.style.color = v.color;
+  rTierWhy.innerHTML = `<span>${TIER_DESC[t][lang]}</span>`;
+  rCB.textContent = v.cb + '%';
+  rMkt.textContent = fmtEUR(v.mkt);
+  rRev.textContent = fmtUSD(rev);
+
+  cards.forEach(c => c.classList.toggle('active', c.dataset.tier === t));
+
+  const x = xForRevenue(rev);
+  const y = yForTier(t);
+  const dot = document.getElementById('marker-dot');
+  const inner = document.getElementById('marker-inner');
+  const vline = document.getElementById('marker-vline');
+  if(dot){ dot.setAttribute('cx', x); dot.setAttribute('cy', y); dot.setAttribute('fill', v.color); }
+  if(inner){ inner.setAttribute('cx', x); inner.setAttribute('cy', y); }
+  if(vline){ vline.setAttribute('x1', x); vline.setAttribute('x2', x); vline.setAttribute('y2', y); }
+}
+
+slider.addEventListener('input', e => { input.value = e.target.value; updateCalc(); });
+input.addEventListener('input', updateCalc);
+input.addEventListener('blur', () => { if(!input.value) input.value = 0; updateCalc(); });
+updateCalc();
+
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+}, { threshold: 0.12 });
+document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+document.querySelectorAll('section .section-head').forEach(el => { el.classList.add('reveal'); io.observe(el); });
+</script>
+
+</body>
+</html>
